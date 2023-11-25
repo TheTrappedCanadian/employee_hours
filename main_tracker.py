@@ -10,6 +10,7 @@ class TimeTrackingApp(ft.UserControl):
 
     def build(self):
         self.name_field = ft.TextField(hint_text="Employee Name", width=200)
+        self.day_field = ft.TextField(hint_text="Day (Monday)", width=200)
         self.time_in_field = ft.TextField(hint_text="Time In (HH:MM)", width=200)
         self.time_out_field = ft.TextField(hint_text="Time Out (HH:MM)", width=200)
 
@@ -19,6 +20,7 @@ class TimeTrackingApp(ft.UserControl):
                 ft.Row(
                     controls=[
                         self.name_field,
+                        self.day_field,
                         self.time_in_field,
                         self.time_out_field,
                         ft.FloatingActionButton(icon=ft.icons.ADD, on_click=self.add_entry),
@@ -41,6 +43,7 @@ class TimeTrackingApp(ft.UserControl):
         if self.name_field.value.strip():
             entry_data = {
                 'name': self.name_field.value,
+                'day': self.day_field.value,
                 'time_in': self.time_in_field.value,
                 'time_out': self.time_out_field.value
             }
@@ -54,6 +57,7 @@ class TimeTrackingApp(ft.UserControl):
         entry_row = ft.Row(
             controls=[
                 ft.Text(entry_data['name'], width=200),
+                ft.Text(entry_data['day'], width=200),
                 ft.Text(entry_data['time_in'], width=200),
                 ft.Text(entry_data['time_out'], width=200),
                 ft.IconButton(icon=ft.icons.DELETE, on_click=lambda e, entry=entry_data: self.delete_entry(entry))
