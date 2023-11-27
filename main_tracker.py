@@ -13,6 +13,8 @@ class TimeTrackingApp(ft.UserControl):
         self.time_in_field = ft.TextField(hint_text="Time In (HH:MM)", width=200)
         self.time_out_field = ft.TextField(hint_text="Time Out (HH:MM)", width=200)
 
+
+
         return ft.Column(
             width=1000,
             controls=[
@@ -28,6 +30,7 @@ class TimeTrackingApp(ft.UserControl):
                 self.records,
             ],
         )
+
 
     def rebuild_records(self):
         self.records.controls.clear()
