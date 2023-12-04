@@ -6,6 +6,7 @@ class TimeTrackingApp(ft.UserControl):
         super().__init__()
         self.records = ft.Column()
         self.entry_data_list = []
+        self.load_entries()
 
     def build(self):
         self.name_field = ft.TextField(hint_text="Employee Name", width=200)
@@ -86,13 +87,13 @@ class TimeTrackingApp(ft.UserControl):
         except Exception as e:
             print(f"An error occurred while loading entries: {e}")
 
-def main(page: ft.Page):
-    page.title = "Employee Time Tracking"
-    page.horizontal_alignment = ft.CrossAxisAlignment.CENTER
-
-    app = TimeTrackingApp()
-    app.load_entries()
-    page.add(app)
-    page.update()
-
-ft.app(target=main)
+# def main(page: ft.Page):
+#     page.title = "Employee Time Tracking"
+#     page.horizontal_alignment = ft.CrossAxisAlignment.CENTER
+#
+#     app = TimeTrackingApp()
+#     app.load_entries()
+#     page.add(app)
+#     page.update()
+#
+# ft.app(target=main)

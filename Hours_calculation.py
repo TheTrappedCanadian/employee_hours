@@ -18,9 +18,9 @@ class TimeEntryProcessor:
     def convert_to_24hour(self, time_str):
         hour, minute, am_pm = re.findall('\d+|\w+', time_str)
         hour = int(hour)
-        if am_pm == 'PM' and hour != 12:
+        if am_pm.upper() == 'PM' and hour != 12:
             hour += 12
-        elif am_pm == 'AM' and hour == 12:
+        elif am_pm.upper() == 'AM' and hour == 12:
             hour = 0
         return f'{hour:02d}:{minute}'
 
@@ -73,6 +73,8 @@ class TimeEntryProcessor:
                 'hours_worked': f"{hours_worked:.2f}"
             })
         return detailed_data, dict(self.total_hours_per_person)
+
+
 
 # Usage
 processor = TimeEntryProcessor('time_entries.json')

@@ -1,5 +1,5 @@
 import flet as ft
-from flet import View, Page, AppBar, ElevatedButton, Text
+from flet import View, Page, AppBar, ElevatedButton, Text, DataTable
 from flet import RouteChangeEvent, ViewPopEvent, CrossAxisAlignment, MainAxisAlignment
 
 # Import TimeTrackingApp class (ensure it's defined in the same module or imported properly)
@@ -7,8 +7,40 @@ from main_tracker import TimeTrackingApp
 from Hours_calculation import TimeEntryProcessor
 
 
+def calculate_hours(e, results_area):
+    processor = TimeEntryProcessor('time_entries.json')
+    processor.process_entries()
+    detailed_data, _ = processor.get_processed_data()
+
+    # Clear the previous results
+    results_area.controls.clear()
+
+    # Add header row
+    header_row = ft.Row([
+        ft.Text("Name", width=100),
+        ft.Text("Day", width=100),
+        ft.Text("Time In", width=100),
+        ft.Text("Time Out", width=100),
+        ft.Text("Hours Worked", width=100)
+    ])
+    results_area.controls.append(header_row)
+
+    # Add data rows
+    for entry in detailed_data:
+        row = ft.Row([
+            ft.Text(entry['name'], width=100),
+            ft.Text(entry['day'], width=100),
+            ft.Text(entry['time_in'], width=100),
+            ft.Text(entry['time_out'], width=100),
+            ft.Text(entry['hours_worked'], width=100)
+        ])
+        results_area.controls.append(row)
+
+    results_area.update()
+
 def main(page: Page) -> None:
     page.title = 'Time Entry'
+
 
     def route_change(e: RouteChangeEvent) -> None:
         page.views.clear()
@@ -47,13 +79,39 @@ def main(page: Page) -> None:
             )
 
         # Store
+        # elif page.route == '/calculate':
+        #     calculate_button = ElevatedButton(text='Calculate Hours', on_click=calculate_hours)
+        #
+        #     page.views.append(
+        #         View(
+        #             route='/calculate',
+        #             controls=[
+        #                 AppBar(title=Text('Hours Calculations'), bgcolor='blue'),
+        #                 calculate_button,
+        #                 results_area,
+        #                 TimeEntryProcessor,
+        #                 # Text(value='Hours Calculation', size=30),
+        #                 ElevatedButton(text='Go Back', on_click=lambda _: page.go('/'))
+        #             ],
+        #             vertical_alignment=MainAxisAlignment.CENTER,
+        #             horizontal_alignment=CrossAxisAlignment.CENTER,
+        #             spacing=26
+        #         )
+        #     )
+
+        # ... [rest of your code] ...
+
         elif page.route == '/calculate':
+            calculate_button = ElevatedButton(text='Calculate Hours', on_click=lambda e: calculate_hours(e, results_area))
+            results_area = ft.Column()  # This will hold our "table" rows
+
             page.views.append(
                 View(
                     route='/calculate',
                     controls=[
                         AppBar(title=Text('Hours Calculations'), bgcolor='blue'),
-                        Text(value='Hours Calculation', size=30),
+                        calculate_button,
+                        results_area,
                         ElevatedButton(text='Go Back', on_click=lambda _: page.go('/'))
                     ],
                     vertical_alignment=MainAxisAlignment.CENTER,
