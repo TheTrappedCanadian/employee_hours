@@ -3,6 +3,7 @@ import re
 import csv
 from collections import defaultdict
 from datetime import datetime
+import requests
 
 class TimeEntryProcessor:
     def __init__(self, filename):
@@ -75,15 +76,16 @@ class TimeEntryProcessor:
         return detailed_data, dict(self.total_hours_per_person)
 
 
-
 # Usage
 processor = TimeEntryProcessor('time_entries.json')
 processor.process_entries()
 processor.write_total_hours_csv()
 processor.write_detailed_hours_csv()
 
+# Prepare data to be sent
+detailed_data, _ = processor.get_processed_data()
 
-
+#
 # import json
 # from collections import defaultdict
 # from datetime import datetime
@@ -98,9 +100,9 @@ processor.write_detailed_hours_csv()
 # def convert_to_24hour(time_str):
 #     hour, minute, am_pm = re.findall('\d+|\w+', time_str)
 #     hour = int(hour)
-#     if am_pm == 'PM' and hour != 12:
+#     if am_pm.upper() == 'PM' and hour != 12:
 #         hour += 12
-#     elif am_pm == 'AM' and hour == 12:
+#     elif am_pm.upper() == 'AM' and hour == 12:
 #         hour = 0
 #     return f'{hour:02d}:{minute}'
 #

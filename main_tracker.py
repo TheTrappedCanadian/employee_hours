@@ -18,6 +18,8 @@ class TimeTrackingApp(ft.UserControl):
 
         return ft.Column(
             width=1000,
+            # height=500,
+            # scroll=ft.ScrollMode.ALWAYS,
             controls=[
                 ft.Row(
                     controls=[
