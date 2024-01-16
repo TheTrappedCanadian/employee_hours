@@ -2,6 +2,8 @@ time_entries.json
 detailed_hours.csv
 total_hours.csv
 .idea/
+.venv/
+.my-app/
 
 # Byte-compiled / optimized / DLL files
 __pycache__/
